@@ -1,9 +1,10 @@
-package main
+package srt
 
 import (
 	"bufio"
 	"fmt"
 	"io"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -14,6 +15,8 @@ type Segment struct {
 	End   float64
 	Text  string
 }
+
+var timestampRegex = regexp.MustCompile("([0-9][0-9]):([0-9][0-9]):([0-9][0-9],[0-9][0-9][0-9]) --> ([0-9][0-9]):([0-9][0-9]):([0-9][0-9],[0-9][0-9][0-9])")
 
 func segmentStartEndTime(segmentStr string) (float64, float64, error) {
 	matches := [][]string{timestampRegex.FindStringSubmatch(segmentStr)}

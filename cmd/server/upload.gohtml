@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>srt2subtitles</title>
+</head>
+<body>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="width">Sequence Width: </label>
+        <input type="number" value="1920" id="width" name="width" placeholder="1920">
+    </div>
+    <div>
+        <label for="height">Sequence Height: </label>
+        <input type="number" value="1080" id="height" name="height" placeholder="1080">
+    </div>
+    <div>
+        <label for="framerate">Sequence Framerate: </label>
+        <input type="number" value="24" id="framerate" name="framerate" placeholder="24">
+    </div>
+    <div>
+        <label for="File">Subtitle File: </label>
+        <input type="file" name="file" id="file" id="file" accept=".srt">
+    </div>
+    <input type="submit" value="Convert">
+    </form>
+</body>
+</html>

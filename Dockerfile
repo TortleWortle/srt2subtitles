@@ -7,6 +7,9 @@ RUN go mod download
 
 COPY . ./
 
+ENV GOOS=linux
+ENV GOARCH=amd64
+
 RUN go build -v -o server ./cmd/server
 
 FROM alpine

@@ -21,48 +21,38 @@ var timestampRegex = regexp.MustCompile("([0-9][0-9]):([0-9][0-9]):([0-9][0-9],[
 func segmentStartEndTime(segmentStr string) (float64, float64, error) {
 	matches := [][]string{timestampRegex.FindStringSubmatch(segmentStr)}
 
-	var start float64
-	var end float64
-
-	startHours, err := strconv.ParseFloat(matches[0][1], 0)
+	startHours, err := strconv.ParseInt(matches[0][1], 10, 0)
 	if err != nil {
-		return start, end, fmt.Errorf("starthours: %v", err)
-	}
-	start += startHours * 60 * 60
-
-	startMinutes, err := strconv.ParseFloat(matches[0][2], 0)
-	if err != nil {
-		return start, end, fmt.Errorf("startminutes: %v", err)
+		return 0, 0, fmt.Errorf("starthours: %v", err)
 	}
 
-	start += startMinutes * 60
+	startMinutes, err := strconv.ParseInt(matches[0][2], 10, 0)
+	if err != nil {
+		return 0, 0, fmt.Errorf("startminutes: %v", err)
+	}
 
 	startSeconds, err := strconv.ParseFloat(strings.Replace(matches[0][3], ",", ".", -1), 64)
 	if err != nil {
-		return start, end, fmt.Errorf("startseconds: %v", err)
+		return 0, 0, fmt.Errorf("startseconds: %v", err)
 	}
-
-	start += startSeconds
 
 	endHours, err := strconv.ParseFloat(matches[0][4], 0)
 	if err != nil {
-		return start, end, fmt.Errorf("endhours: %v", err)
+		return 0, 0, fmt.Errorf("endhours: %v", err)
 	}
-	end += endHours * 60 * 60
 
 	endMinutes, err := strconv.ParseFloat(matches[0][5], 0)
 	if err != nil {
-		return start, end, fmt.Errorf("endminutes: %v", err)
+		return 0, 0, fmt.Errorf("endminutes: %v", err)
 	}
-
-	end += endMinutes * 60
 
 	endSeconds, err := strconv.ParseFloat(strings.Replace(matches[0][6], ",", ".", -1), 64)
 	if err != nil {
-		return start, end, fmt.Errorf("endseconds: %v", err)
+		return 0, 0, fmt.Errorf("endseconds: %v", err)
 	}
 
-	end += endSeconds
+	start := float64(startHours*60*60+startMinutes*60) + startSeconds
+	end := float64(endHours*60*60+endMinutes*60) + endSeconds
 
 	return start, end, nil
 }

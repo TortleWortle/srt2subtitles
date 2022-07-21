@@ -16,6 +16,6 @@ FROM alpine
 
 COPY --from=builder /app/server /app/server
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["/app/server"]

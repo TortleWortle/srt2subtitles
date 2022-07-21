@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -18,7 +19,7 @@ import (
 	"github.com/tortlewortle/srt2subtitles/pkg/srt"
 )
 
-//go:embed template.goxml
+//go:embed final_cut_project.goxml
 var xmltemplate string
 
 //go:embed upload.gohtml
@@ -45,7 +46,10 @@ type TmplSegment struct {
 }
 
 func main() {
-	fmt.Println("ok")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	r := chi.NewRouter()
 
 	r.Use(middleware.RequestID)
@@ -60,10 +64,8 @@ func main() {
 	})
 
 	r.Post("/upload", uploadHandler)
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":"+port, r)
 }
-
-const framerate = 24
 
 func uploadHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(10 << 20)
